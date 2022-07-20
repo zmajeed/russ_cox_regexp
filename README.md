@@ -6,11 +6,11 @@ There are links to source code throughout the articles and on the home page. But
 
 I've collected the files here for easier access.
 
-- [**`dfa0.c`**](dfa0.c) - Generates and runs DFA states on the fly for corresponding states of NFA of regular expression. Caches DFA states as optimization
+- [**`dfa0.c`**](dfa0.c) - Generates DFA states each equivalent to possibly multiple NFA states as needed while executing the NFA as in `nfa.c`. DFA states are arranged in a binary search tree that acts as a cache. A DFA state is only computed if not already present in the tree. DFA states are ordered by the list of states they represent. Lists of states are sorted by the address of each state node. Two lists are equal if they contain exactly the same state nodes.
 
-- [**`dfa1.c`**](dfa1.c) - Limits cache entries of DFA states from `dfa0.c` to bound memory use
+- [**`dfa1.c`**](dfa1.c) - Limits the tree of DFA states cache from `dfa0.c` to 32 entries to bound memory use. The cache is completely cleared if more than 32 DFA states are needed. And the tree is filled anew.
 
-- [**`nfa.c`**](nfa.c) - Implements Ken Thompson's algorithm to generate and run NFA for regular expression
+- [**`nfa.c`**](nfa.c) - Implements Ken Thompson's algorithm to generate and run NFA for regular expression. Multiple possible next NFA states are executed in lockstep beginning with the start state.
 
 - [**`nfa-perl.y`**](nfa-perl.y) - NFA-based regex engine with group captures that follow Perl behavior. Program has yacc parser for regex
 
